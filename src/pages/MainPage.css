@@ -12,4 +12,95 @@
 	transform: translateX(-50%) translateY(-50%) scale(2, 2);
 	transition: 0.5s ease-in-out;
     white-space: nowrap;
+    z-index: 1000;
+}
+
+.name-intro.top {
+	top: 0;
+    margin-top: 10px;
+	transform: translateX(-50%);
+}
+
+.main-container {
+    display: inline-block;
+    margin-top: 65px;
+    transition: 1s;
+    color: white;
+    font-size: 17px;
+}
+
+.age {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.years {
+    color: #55ff37;
+    display: inline-block;
+}
+
+.years .underline {
+    background-color: #55ff37;
+}
+
+.location {
+    color: #b71111;
+    display: inline-block;
+}
+
+.location .underline {
+    background-color: #b71111;
+}
+
+.description {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comp-sci {
+    color: #e9b130;
+    display: inline-block;
+}
+
+.comp-sci .underline {
+    background-color: #e9b130;
+}
+
+.mathematics {
+    color: #0093ee;
+    display: inline-block;
+}
+
+.mathematics .underline {
+    background-color: #0093ee;
+}
+
+.github {
+    font-size: 28px;
+}
+
+.github-link {
+    color: #767676;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.github-link .underline {
+    background-color: #767676;
+}
+
+.underline {
+	display: block;
+	height: 2px;
+	margin: 0 auto;
+	width: 0;
+	transition: width .25s linear;
+}
+
+*:hover>.underline {
+    width: 100%;
 }

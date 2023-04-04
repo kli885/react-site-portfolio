@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import './MainPage.css';
 
@@ -46,6 +47,8 @@ function MainPage() {
     let [nameAnimationStep, setNameAnimationStep] = useState("{ }")
     let [doneNameAnimation, setDoneNameAnimation] = useState(false)
 
+    let [age, setAge] = useState("")
+
     useEffect(() => {
         let alreadySeen = false;
         if (sessionStorage.getItem("alreadySeen")) {
@@ -66,13 +69,54 @@ function MainPage() {
         update();
     }, [])
 
+    useEffect(() => {
+        setInterval(() => {
+            let newAge = (new Date() - new Date(922088040000)) / (1000 * 60 * 60 * 24 * 365.25);
+            setAge(newAge.toString().substring(0, 12))
+        }, 50)
+    }, [])
+
     return (
         <div className="site-container">
-            <h1 className="name-intro">
+            <h1 className={doneNameAnimation ? "name-intro top" : "name-intro"}>
                 <span style={{color: "white", fontSize: "40px", fontWeight: "bold"}}>{"{"}</span>
                 <span style={{borderBottom: "2px solid white"}}>{nameAnimationStep}</span>
                 <span style={{color: "white", fontSize: "40px", fontWeight: "bold"}}>{"}"}</span>
             </h1>
+            <div className="main-container" id="main" style={{opacity: doneNameAnimation ? 1 : 0}}>
+                <h2 className="age">
+                    {"I am a "}
+                    <span className='years'>
+                        {age} year-old
+                        <span className='underline'/>
+                    </span> 
+                    {" developer based in "}
+                    <span className='location'>
+                        Edmonton, AB.
+                        <span className='underline'/>
+                    </span>
+                </h2>
+                <h2 className='description'>
+                    {"I graduated from the University of Alberta in December 2022 with a Bachelor of Science, majoring in "}
+                    <span className="comp-sci">
+                        Computing Science
+                        <span className='underline'/>
+                    </span>
+                    {" with a minor in "}
+                    <span className="mathematics">
+                        Mathematics
+                        <span className='underline'/>
+                    </span>.
+                </h2>
+                
+                <h2 className='github'>
+                    {"Check out what I've been up to: "}
+                    <Link className='github-link' to='/github'>
+                        Github
+                        <span className='underline'/>
+                    </Link>
+                </h2>
+            </div>
         </div>
     );
 }
