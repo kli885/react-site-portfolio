@@ -37,7 +37,7 @@ function GithubPage() {
             }
         }
         getGithubUserData()
-    }, [values.username]);
+    }, []);
 
     return (
         <>

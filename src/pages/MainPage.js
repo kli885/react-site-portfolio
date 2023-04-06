@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 import './MainPage.css';
 
+import useScript from '../hooks/useScript';
+
+
 function MainPage() {
     let [nameAnimation, setNameAnimation] = useState([
         { t: " ", ms: 400 },
@@ -49,12 +52,15 @@ function MainPage() {
 
     let [age, setAge] = useState("")
 
+    useScript("text/javascript", "./js/globe.js")
+
     useEffect(() => {
         let alreadySeen = false;
         if (sessionStorage.getItem("alreadySeen")) {
             alreadySeen = sessionStorage.getItem("alreadySeen")
         }
         let i = alreadySeen ? 21 : 0;
+        document.body.style.overflowY = "hidden"
         let update = () => {
             let step = nameAnimation[i];
             setNameAnimationStep(step.t);
@@ -63,7 +69,9 @@ function MainPage() {
                 setTimeout(update, step.ms);
             } else {
                 setDoneNameAnimation(true)
+                document.body.style.overflowY = null;
                 sessionStorage.setItem("alreadySeen", true)
+                window.initGlobe();
             }
         }
         update();
@@ -116,6 +124,9 @@ function MainPage() {
                         <span className='underline'/>
                     </Link>
                 </h2>
+                <div className='globe-container' id="globe-container" style={{display: doneNameAnimation ? null : "none", opacity: doneNameAnimation ? 1 : 0}}>
+
+                </div>
             </div>
         </div>
     );
