@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { ParallaxProvider } from 'react-scroll-parallax';
 import { Link } from 'react-router-dom';
 
-import './MainPage.css';
+import './MainPage.css'
+
+import Marquee from '../components/Marquee';
 
 import useScript from '../hooks/useScript';
-
 
 function MainPage() {
     let [nameAnimation, setNameAnimation] = useState([
@@ -60,7 +62,7 @@ function MainPage() {
             alreadySeen = sessionStorage.getItem("alreadySeen")
         }
         let i = alreadySeen ? 21 : 0;
-        document.body.style.overflowY = "hidden"
+        document.body.style.overflow = "hidden"
         let update = () => {
             let step = nameAnimation[i];
             setNameAnimationStep(step.t);
@@ -69,7 +71,7 @@ function MainPage() {
                 setTimeout(update, step.ms);
             } else {
                 setDoneNameAnimation(true)
-                document.body.style.overflowY = null;
+                document.body.style.overflow = null;
                 sessionStorage.setItem("alreadySeen", true)
                 window.initGlobe();
             }
@@ -86,6 +88,22 @@ function MainPage() {
 
     return (
         <div className="site-container">
+            {/* <div style={{
+                position: "absolute",
+                left: "50%",
+                top: "0",
+                width: "2px",
+                height: "100%",
+                backgroundColor: "red"
+            }}/>
+            <div style={{
+                position: "absolute",
+                left: "0",
+                top: "50%",
+                width: "100%",
+                height: "2px",
+                backgroundColor: "red"
+            }}/> */}
             <h1 className={doneNameAnimation ? "name-intro top" : "name-intro"}>
                 <span style={{color: "white", fontSize: "40px", fontWeight: "bold"}}>{"{"}</span>
                 <span style={{borderBottom: "2px solid white"}}>{nameAnimationStep}</span>
@@ -124,10 +142,20 @@ function MainPage() {
                         <span className='underline'/>
                     </Link>
                 </h2>
-                <div className='globe-container' id="globe-container" style={{display: doneNameAnimation ? null : "none", opacity: doneNameAnimation ? 1 : 0}}>
-
-                </div>
             </div>
+            <div className='globe-container' id="globe-container" style={{display: doneNameAnimation ? null : "none", opacity: doneNameAnimation ? 1 : 0}}>
+
+            </div>
+            <div className='gradient-layer parallax-title' style={{opacity: doneNameAnimation ? 1 : 0}}>
+                <ParallaxProvider>
+                    <div className="marquee-container">
+                        {["NodeJs", "Python", "HTML/CSS/JS"].map((lang, langIndex) => {
+                            return <Marquee key={langIndex} lang={lang} langIndex={langIndex}></Marquee>
+                        })}
+                    </div>
+                </ParallaxProvider>
+            </div>
+            <div className='filler-background' style={{opacity: doneNameAnimation ? 1 : 0}}></div>
         </div>
     );
 }

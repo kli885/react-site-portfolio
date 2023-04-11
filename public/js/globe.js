@@ -27,19 +27,35 @@ function animate() {
 initGlobe = () => {
     globe.init();
     animate();
-    fetch('https://ip-api.io/json').then(r => r.text()).then(r => {
-        let loc = JSON.parse(r);
-        if ((loc.latitude >= 53.33508154968209 && loc.latitude <= 53.71648044600668) && 
+    let loc = {
+        latitude: 36.67809524620863, 
+        longitude: 138.83136351039371,
+        city: "Tokyo"
+    }
+    if ((loc.latitude >= 53.33508154968209 && loc.latitude <= 53.71648044600668) && 
             (loc.longitude >= -113.7175643914543 && loc.longitude <= -113.27211535683806)) {
-            globe.addMarker(loc.latitude, loc.longitude, `Edmonton (We're both here!)`);
-            globe.addPin(loc.latitude, loc.longitude, " ");
-        } else {
-            globe.addMarker(53.655, -113.3784, "Edmonton (I'm here)");
-            globe.addPin(53.655, -113.3784, " ");
-            globe.addMarker(49.25, -123.1, `${loc.city} (You're here)`, true);
-            globe.addPin(loc.latitude, loc.longitude, " ");
-        }
-    });
+        globe.addMarker(loc.latitude, loc.longitude, `Edmonton (We're both here!)`);
+        globe.addPin(loc.latitude, loc.longitude, " ");
+    } else {
+        let far = haversineDistance([53.655, -113.3784], [loc.latitude, loc.longitude])/1000 >= 2000;
+        globe.addMarker(53.655, -113.3784, "Edmonton (I'm here)");
+        globe.addPin(53.655, -113.3784, " ");
+        globe.addMarker(loc.latitude, loc.longitude, `${loc.city} (You're here)`, far);
+        globe.addPin(loc.latitude, loc.longitude, " ");
+    }
+    // fetch('https://ip-api.io/json').then(r => r.text()).then(r => {
+    //     let loc = JSON.parse(r);
+    //     if ((loc.latitude >= 53.33508154968209 && loc.latitude <= 53.71648044600668) && 
+    //         (loc.longitude >= -113.7175643914543 && loc.longitude <= -113.27211535683806)) {
+    //         globe.addMarker(loc.latitude, loc.longitude, `Edmonton (We're both here!)`);
+    //         globe.addPin(loc.latitude, loc.longitude, " ");
+    //     } else {
+    //         globe.addMarker(53.655, -113.3784, "Edmonton (I'm here)");
+    //         globe.addPin(53.655, -113.3784, " ");
+    //         globe.addMarker(49.25, -123.1, `${loc.city} (You're here)`, true);
+    //         globe.addPin(loc.latitude, loc.longitude, " ");
+    //     }
+    // });
     
     setTimeout(function(){
         var constellation = [];

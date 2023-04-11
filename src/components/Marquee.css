@@ -1,0 +1,34 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@800&display=swap');
+
+.marquee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px
+}
+
+.marquee-text {
+    text-align: center;
+    font-size: 75px;
+    color: White;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.horizontal {
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+#rect {
+	transform: translateY(30px);
+    padding-left: 20px;
+	overflow: visible;
+	transition: transform 0.2s linear;
+}
+
+#rectleft, #rectright {
+	transform: translateX(1px) translateY(1px);
+	stroke-width: 2px;
+	stroke: transparent;
+	fill: transparent;
+}

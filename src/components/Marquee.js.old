@@ -1,0 +1,72 @@
+import React, { forwardRef, useRef, useEffect, useState } from "react";
+import "./Marquee.css";
+import { Parallax, useParallax } from "react-scroll-parallax";
+
+const forwardTranslations = {
+    0: ["100%", "0%"],
+    1: ["-100", "0%"]
+}
+const backwardTranslations = {
+    0: ["0%", "-100"],
+    1: ["0%", "100%"]
+}
+
+export const Marquee = (props) => {
+    const nodeRef = useRef(null)
+    const pythonRef = useRef(null)
+    const javascriptRef = useRef(null)
+
+    let [langs, setLangs] = useState({
+        node: {
+            ref:nodeRef,
+            text:"NodeJS"
+        },
+        python: {
+            ref:pythonRef,
+            text:"Python"
+        },
+        js: {
+            ref:javascriptRef,
+            text:"HTML/CSS/JS"
+        },
+    })
+
+    useEffect(() => {
+        // setLangs({
+        //     ...langs,
+        //     node: {
+        //         ...langs.node,
+        //         text: "NodeJS"
+        //     }
+        // })
+    }, [])
+
+    const clickLang = (word) => {
+        langs[word].ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    return(
+        <div className="marquee-root">
+            <div className="marquee-container">
+                {props.words.map((word, wordIndex) => {
+                    return(
+                        <div key={wordIndex}>
+                            <Parallax
+                                className="marquee-text"
+                                translateX={forwardTranslations[wordIndex%2]}
+                                startScroll={200 + (200*wordIndex)}
+                                endScroll={800 + (200*wordIndex)}
+                                opacity={[0,1]}
+                            >
+                                <span ref={langs[word].ref} className={`horizontal ${word.toLowerCase()}`} onClick={() => {clickLang(word)}}>{langs[word].text}</span>
+                            </Parallax>
+                            <div style={{marginBottom: "50px"}}></div>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+    )
+};
+
+export default Marquee;

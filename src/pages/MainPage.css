@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Titillium+Web,wght@1,600&display=swap');
 
 .site-container {
     text-align: center;
@@ -117,4 +116,24 @@ canvas {
     height: 100%;
 	position: absolute;
 	transform: translateX(-50%);
+}
+
+.gradient-layer {
+    height: 150px;
+    background: linear-gradient(0deg, rgba(18,22,51,1) 0%, rgba(0,0,0,1) 100%);
+    position: relative;
+}
+
+.parallax-container {
+    height: 100%;
+    background-color: rgba(18,22,51,1);
+}
+
+.parallax-title {
+    padding-bottom: 100px;
+}
+
+.filler-background {
+    height: 5000px;
+    background-color: rgba(18,22,51,1);
 }
