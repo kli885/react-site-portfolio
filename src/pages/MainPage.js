@@ -54,6 +54,8 @@ function MainPage() {
 
     let [age, setAge] = useState("")
 
+    let [langActive, setlangActive] = useState([false, false, false])
+
     useScript("text/javascript", "./js/globe.js")
 
     useEffect(() => {
@@ -85,6 +87,19 @@ function MainPage() {
             setAge(newAge.toString().substring(0, 12))
         }, 50)
     }, [])
+
+    const onClickLang = (langIndex, flip) => {
+        let newActiveLangs = [...langActive];
+        if (flip) {
+            for (let i = 0; i < newActiveLangs.length; i++) {
+                if (i !== langIndex) {
+                    newActiveLangs[i] = false;
+                }
+            }
+        }
+        newActiveLangs[langIndex] = !newActiveLangs[langIndex]
+        setlangActive(newActiveLangs)
+    }
 
     return (
         <div className="site-container">
@@ -148,9 +163,14 @@ function MainPage() {
             </div>
             <div className='gradient-layer parallax-title' style={{opacity: doneNameAnimation ? 1 : 0}}>
                 <ParallaxProvider>
-                    <div className="marquee-container">
+                    <div className="parallax-container">
                         {["NodeJs", "Python", "HTML/CSS/JS"].map((lang, langIndex) => {
-                            return <Marquee key={langIndex} lang={lang} langIndex={langIndex}></Marquee>
+                            return <Marquee 
+                                        key={langIndex} 
+                                        lang={lang}
+                                        langIndex={langIndex} 
+                                        onClickLang={onClickLang}
+                                        active={langActive}/>
                         })}
                     </div>
                 </ParallaxProvider>
