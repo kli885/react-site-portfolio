@@ -7,7 +7,7 @@
 
 .marquee-text {
     text-align: center;
-    font-size: 75px;
+    /* font-size: 75px; */
     color: White;
     font-family: 'Work Sans', sans-serif;
 }
@@ -16,12 +16,29 @@
     cursor: pointer;
 }
 
+.nodejs, .python, .html-css-js {
+    display: inline-block;
+}
+
+.nodejs .underline {
+    background-color: #55ff37;
+}
+
+.python .underline {
+    background-color: #ffd43b;
+}
+
+.html-css-js .underline {
+    background-color: #b71111;
+}
+
 #rect {
-	transform: translateY(30px);
+	transform: translateY(50px);
+    height: 0;
     padding-left: 20px;
 	overflow: visible;
-	transition: transform 0.2s linear;
-    display: none;
+	transition: all 0.2s linear;
+    /* display: none; */
     float: left;
 }
 
@@ -30,4 +47,23 @@
 	stroke-width: 2px;
 	stroke: transparent;
 	fill: transparent;
+}
+
+.lang-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transition: all 0.75s linear;
+    opacity: -5;
+    
+}
+
+.lang-title {
+    font-size: 3rem;
+    margin-top: 80px;
+}
+
+.lang-description {
+    margin: 20px auto 0 auto;
+    width: 50%;
 }

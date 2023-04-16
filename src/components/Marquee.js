@@ -1,20 +1,32 @@
 import React, { forwardRef, useRef, useEffect, useState } from "react";
-import "./Marquee.css";
 import { Parallax, useParallax } from "react-scroll-parallax";
+import ScaleText from "react-scale-text";
+
+import useWindowSize from "../hooks/useWindowSize"
+
+import "./Marquee.css";
 
 const translations = {
     0: ["100%", "0%"],
     1: ["-100", "0%"]
 }
 
-const colors = ["#55ff37", "#b71111", "#0093ee"]
+const langDetails = {
+
+}
+
+const colors = ["#55ff37", "#ffd43b","#b71111", "#0093ee"]
 
 export const Marquee = (props) => {
+    const [width, height] = useWindowSize()
+
     const containerRef = useRef(null)
     const langRef = useRef(null)
     const rectRef = useRef(null)
     const leftRef = useRef(null)
     const rightRef = useRef(null)
+
+    const langTextRef = useRef(null)
 
     const [containers, setContainers] = useState([])
     const [otherRects, setOtherRects] = useState([])
@@ -26,26 +38,38 @@ export const Marquee = (props) => {
     }, [])
 
     useEffect(() => {
+        let h = window.innerHeight - langRef.current.offsetHeight*2;
+        setupPath();
+        for (let i = containers.length-1; i >= 0 ; i--) {
+            if (containers[i].className.includes(props.lang.name.toLowerCase())) {
+                break;
+            };
+            if (containers[i].style.transform !== `translateY(0px)` && containers[i].style.transform !== "") {
+                containers[i].style.transform = `translateY(${h+40}px)`
+            }
+        }
+    }, [width, height])
+
+    useEffect(() => {
         if (!props.active[props.langIndex]) {
             undoPath(0.5);
+            langTextRef.current.style.transition = "all 0s linear"
+            langTextRef.current.style.opacity = 0
             setTimeout(() => {
                 leftRef.current.style.stroke = "transparent";
                 rightRef.current.style.stroke = "transparent";
-                rectRef.current.style.display = "none"
+                
             }, 500)
         }
     }, [props.active[props.langIndex]])
 
-    const setUpPath = () => {
-        let currentEl = langRef.current;
-        let x = (currentEl.offsetLeft + (currentEl.getBoundingClientRect().width / 2));
-        x -= 20;
+    const setupPath = () => {
+        let x = (langRef.current.offsetLeft + (langRef.current.getBoundingClientRect().width / 2)) - 20;
         
-        let h = window.innerHeight - currentEl.offsetHeight*2;
+        let h = window.innerHeight - langRef.current.offsetHeight*2;
         let x2 = window.innerWidth - x - 40;
 
         rectRef.current.style.display = 'initial';
-        // rectRef.current.style.height = h + 40 + "px";
 
         leftRef.current.setAttribute('d', `M ${x + 2},0
                                 C 100,0 40,0 40,0
@@ -68,13 +92,6 @@ export const Marquee = (props) => {
         leftRef.current.style.strokeDasharray = len;
         rightRef.current.style.transition = 'initial';
         rightRef.current.style.strokeDasharray = len;
-
-        for (let i = containers.length-1; i >= 0 ; i--) {
-            if (containers[i].className.includes(props.lang.toLowerCase())) {
-                break;
-            };
-            containers[i].style.transform = `translateY(${h-100}px)`
-        }
     }
 
     const doPath = () => {
@@ -96,35 +113,56 @@ export const Marquee = (props) => {
         rightRef.current.style.strokeDashoffset = len;
     }
 
+    const setupOtherLangs = () => {
+        let h = window.innerHeight - langRef.current.offsetHeight*2;
+
+        langTextRef.current.style.transition = "opacity 0.5s linear"
+        langTextRef.current.style.opacity = 1
+        langTextRef.current.style.display = ""
+
+        if (containerRef.current.style.transform !== `translateY(${h+40}px)`) {
+            for (let i = containers.length-1; i >= 0 ; i--) {
+                if (containers[i].className.includes(props.lang.name.toLowerCase())) {
+                    break;
+                };
+                containers[i].style.transform = `translateY(${h+40}px)`
+            }
+        }
+    }
+
     const clickLang = () => {
         if (props.active[props.langIndex]) {
             undoPath(0.5);
+            langTextRef.current.style.opacity = 0
             setTimeout(() => {
                 leftRef.current.style.stroke = "transparent";
                 rightRef.current.style.stroke = "transparent";
-                rectRef.current.style.display = "none"
+                langTextRef.current.style.display = "none"
                 for (let i = 0; i < containers.length; i++) {
                     containers[i].style.transform = `translateY(0px)`
                 }
+                
             }, 500)
             props.onClickLang(props.langIndex)
             return;
         }
-        if (containerRef.current.style.transform !== `translateY(0px)` &&
-            containerRef.current.style.transform !== "") {
-                // let move = setInterval(putInView, 1, "instant")
+
+        let containerElStyle = containerRef.current.style
+        
+        if (containerElStyle.transform !== `translateY(0px)` && containerElStyle.transform !== "") {
             for (let i = 0; i < containers.length; i++) {
                 containers[i].style.transform = `translateY(0px)`
-                if (containers[i].className.includes(props.lang.toLowerCase())) {
+                if (containers[i].className.includes(props.lang.name.toLowerCase())) {
                     break;
                 };
             }
-            setTimeout(putInView, 200, "instant")
+            setTimeout(putInView, 200, "smooth")
         } else {
             putInView("smooth")
         }
         setTimeout(() => {
-            setUpPath();
+            setupPath();
+            setupOtherLangs();
             undoPath(0.25);
             setTimeout(doPath, 250);
             props.onClickLang(props.langIndex, true)
@@ -135,28 +173,34 @@ export const Marquee = (props) => {
         containerRef.current.scrollIntoView({ behavior: behavior });
     }
 
-
     return(
-        <div ref={containerRef} className={`marquee-container ${props.lang.toLowerCase()}`}>
-            <Parallax
-                className="marquee-text"
-                translateX={translations[props.langIndex%2]}
-                startScroll={200 + (200*props.langIndex)}
-                endScroll={props.active[props.langIndex] ? 0 : 800 + (200*props.langIndex)}
-                opacity={[-1,1]}
-            >
-                <span 
-                    ref={langRef} 
-                    className={`horizontal ${props.lang.toLowerCase()}`} 
-                    onClick={clickLang}
+        <div ref={containerRef} className={`marquee-container ${props.lang.name.toLowerCase()}`}>
+            <ScaleText widthOnly={true} maxFontSize={75}>
+                <Parallax
+                    className="marquee-text"
+                    translateX={translations[props.langIndex%2]}
+                    startScroll={200 + (200*props.langIndex)}
+                    endScroll={props.active[props.langIndex] ? 0 : 800 + (200*props.langIndex)}
+                    opacity={[-1,1]}
+                    style={{width:"100%"}}
                 >
-                    {props.lang}
-                </span>
-            </Parallax>
-            <svg ref={rectRef} className={`rect rect-${props.lang.toLowerCase()}`} id="rect">
+                        <span 
+                            ref={langRef} 
+                            className={`${props.lang.name.replaceAll("/", "-").toLowerCase()} horizontal ${props.active[props.langIndex] ? "active-lang" : ""}`} 
+                            onClick={clickLang}
+                        >
+                            {props.lang.name}
+                            <span className='underline'/>
+                        </span>
+                </Parallax>
+            </ScaleText>
+            <svg ref={rectRef} className={`rect rect-${props.lang.name.toLowerCase()}`} id="rect">
                 <path ref={leftRef} id="rectleft"/>
                 <path ref={rightRef} id="rectright"/>
             </svg>
+            <div ref={langTextRef} className="lang-text" style={{display: "none"}}>
+                {props.lang.details}
+            </div>
         </div>
     )
 };

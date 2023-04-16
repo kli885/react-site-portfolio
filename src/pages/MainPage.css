@@ -102,7 +102,7 @@
 	transition: width .25s linear;
 }
 
-*:hover>.underline {
+*:hover>.underline, .active-lang>.underline {
     width: 100%;
 }
 

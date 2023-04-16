@@ -4,51 +4,13 @@ import { Link } from 'react-router-dom';
 
 import './MainPage.css'
 
+import { nameAnimation, languageDetails } from '../constants';
+
 import Marquee from '../components/Marquee';
 
 import useScript from '../hooks/useScript';
 
 function MainPage() {
-    let [nameAnimation, setNameAnimation] = useState([
-        { t: " ", ms: 400 },
-        { t: "_", ms: 400 },
-        { t: " ", ms: 400 },
-        { t: "_", ms: 400 },
-        { t: "W_", ms: 70 },
-        { t: "WE_", ms: 70 },
-        { t: "WEL_", ms: 70 },
-        { t: "WELC_", ms: 70 },
-        { t: "WELCO_", ms: 70 },
-        { t: "WELCOM_", ms: 70 },
-        { t: "WELCOME_", ms: 70 },
-        { t: "WELCOME ", ms: 400 },
-        { t: "WELCOME_", ms: 400 },
-        { t: "WELCOM_", ms: 50 },
-        { t: "WELCO_", ms: 50 },
-        { t: "WELC_", ms: 50 },
-        { t: "WEL_", ms: 50 },
-        { t: "WE_", ms: 50 },
-        { t: "W_", ms: 50 },
-        { t: "_", ms: 400 },
-        { t: " ", ms: 400 },
-        { t: "_", ms: 400 },
-        { t: "K_", ms: 70 },
-        { t: "KE_", ms: 70 },
-        { t: "KEV_", ms: 70 },
-        { t: "KEVI_", ms: 70 },
-        { t: "KEVIN_", ms: 70 },
-        { t: "KEVIN_", ms: 70 },
-        { t: "KEVIN _", ms: 70 },
-        { t: "KEVIN L_", ms: 70 },
-        { t: "KEVIN LI_", ms: 70 },
-        { t: "KEVIN LI ", ms: 400 },
-        { t: "KEVIN LI_", ms: 400 },
-        { t: "KEVIN LI ", ms: 400 },
-        { t: "KEVIN LI_", ms: 400 },
-        { t: "KEVIN LI", ms: 200 },
-        { t: "KEVIN LI", ms: 200 }
-    ])
-
     let [nameAnimationStep, setNameAnimationStep] = useState("{ }")
     let [doneNameAnimation, setDoneNameAnimation] = useState(false)
 
@@ -164,7 +126,7 @@ function MainPage() {
             <div className='gradient-layer parallax-title' style={{opacity: doneNameAnimation ? 1 : 0}}>
                 <ParallaxProvider>
                     <div className="parallax-container">
-                        {["NodeJs", "Python", "HTML/CSS/JS"].map((lang, langIndex) => {
+                        {languageDetails.map((lang, langIndex) => {
                             return <Marquee 
                                         key={langIndex} 
                                         lang={lang}
