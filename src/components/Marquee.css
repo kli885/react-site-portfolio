@@ -16,7 +16,7 @@
     cursor: pointer;
 }
 
-.nodejs, .python, .html-css-js {
+.nodejs, .python, .html-css-js, .others {
     display: inline-block;
 }
 
@@ -30,6 +30,10 @@
 
 .html-css-js .underline {
     background-color: #b71111;
+}
+
+.others .underline {
+    background-color: #58bfff;
 }
 
 #rect {
@@ -53,9 +57,8 @@
     position: absolute;
     width: 100%;
     text-align: center;
-    transition: all 0.75s linear;
-    opacity: -5;
-    
+    transition: all 0.5s linear;
+    opacity: 0;
 }
 
 .lang-title {
@@ -66,4 +69,154 @@
 .lang-description {
     margin: 20px auto 0 auto;
     width: 50%;
+    font-size: 5.5vw;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 500px) {
+    .lang-description {
+        font-size: 27px;
+    }
+}
+
+@media (max-width: 850px) {
+    .lang-description {
+        width: 80%;
+    }
+}
+
+.projects {
+	display: flex;
+	margin: 10px 30px 0 30px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: relative;
+    justify-content: center;
+    z-index: 0;
+}
+
+.proj {
+	margin: 10px;
+    margin-top: 20px;
+    min-width: 300px;
+	max-width: 300px;
+	height: 300px;
+	background: none;
+	border: 0;
+	box-sizing: border-box;
+	background-size: 100% 100%;
+	position: relative;
+	box-shadow: 0 0 0 1000px inset #0000008f, 0 0 45px 0 inset black;
+	border-radius: 20px;
+	background-position: center;
+	/* cursor: pointer; */
+	transition: background-size 0.2s ease-in;
+}
+
+.proj a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.proj::before {
+	top: 0;
+	left: 0;
+}
+
+.proj:hover {
+	background-size: 120% 120%;
+}
+
+.proj::before, .proj::after {
+	border: 2px solid transparent;
+	width: 0;
+	height: 0;
+	box-sizing: inherit;
+	content: '';
+	position: absolute;
+    pointer-events: none;
+}
+
+.proj::after {
+	bottom: 0;
+	right: 0;
+}
+
+.proj.loaded::before, .proj.loaded::after {
+	width: 100%;
+	height: 100%;
+	border-radius: 20px;
+    
+}
+
+.proj.loaded::before {
+	transition: width 0.125s ease-out, height 0.125s ease-out 0.125s, border-radius .125s ease-out 0s;
+}
+
+.proj.loaded::after {
+	transition: border-color 0s ease-out 0.25s, width 0.125s ease-out 0.25s, height 0.125s ease-out 0.325s, border-radius .125s ease-out 0s;
+}
+
+.projects.node-projects>.proj.loaded::before {
+	border-top-color: #55ff37;
+	border-right-color: #55ff37;
+}
+
+.projects.node-projects>.proj.loaded::after {
+	border-bottom-color: #55ff37;
+	border-left-color: #55ff37;
+}
+
+.projects.python-projects>.proj.loaded::before {
+	border-top-color: #ffd43b;
+	border-right-color: #ffd43b;
+}
+
+.projects.python-projects>.proj.loaded::after {
+	border-bottom-color: #ffd43b;
+	border-left-color: #ffd43b;
+}
+
+.projects.htmlcssjs-projects>.proj.loaded::before {
+	border-top-color: #b71111;
+	border-right-color: #b71111;
+}
+
+.projects.htmlcssjs-projects>.proj.loaded::after {
+	border-bottom-color: #b71111;
+	border-left-color: #b71111;
+}
+
+.projects.other-projects>.proj.loaded::before {
+	border-top-color: #58bfff;
+	border-right-color: #58bfff;
+}
+
+.projects.other-projects>.proj.loaded::after {
+	border-bottom-color: #58bfff;
+	border-left-color: #58bfff;
+}
+
+
+
+.scrollbar-container {
+    overflow: hidden !important;
+    overflow-anchor: none;
+    -ms-overflow-style: none;
+    touch-action: auto;
+    -ms-touch-action: auto;
+}
+
+.lang-description .scaletext-wrapper {
+    overflow-y: scroll!important;
+    max-height: 265.5px!important;
+}
+
+#scroll-tip {
+    position: absolute;
+    left: 5px;
+    top: -20px;
+    color: #7c7c7c;
+    opacity: 1;
+    pointer-events: none;
 }

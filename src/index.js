@@ -4,9 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App />
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_APP_RECAPTCHA_KEY}>
+        <App />
+    </GoogleReCaptchaProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

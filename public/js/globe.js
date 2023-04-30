@@ -43,6 +43,7 @@ initGlobe = () => {
         globe.addMarker(loc.latitude, loc.longitude, `${loc.city} (You're here)`, far);
         globe.addPin(loc.latitude, loc.longitude, " ");
     }
+
     // fetch('https://ip-api.io/json').then(r => r.text()).then(r => {
     //     let loc = JSON.parse(r);
     //     if ((loc.latitude >= 53.33508154968209 && loc.latitude <= 53.71648044600668) && 
@@ -80,10 +81,12 @@ initGlobe = () => {
 
 }
 window.addEventListener('resize', () => {
-    let h = window.innerHeight - (main.clientTop + main.clientHeight);
-    globe.camera.aspect = window.innerWidth / h;
-    globe.camera.updateProjectionMatrix();
-    globe.renderer.setSize(window.innerWidth, h);
+    if (globe.camera) {
+        let h = window.innerHeight - (main.clientTop + main.clientHeight);
+        globe.camera.aspect = window.innerWidth / h;
+        globe.camera.updateProjectionMatrix();
+        globe.renderer.setSize(window.innerWidth, h);
+    }
 })
 
 

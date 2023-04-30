@@ -1,21 +1,21 @@
 import React, { forwardRef, useRef, useEffect, useState } from "react";
+import { BrowserView, MobileView } from "react-device-detect";
 import { Parallax, useParallax } from "react-scroll-parallax";
 import ScaleText from "react-scale-text";
 
 import useWindowSize from "../hooks/useWindowSize"
+import useDidMountEffect from "../hooks/useDidMountEffect"
 
 import "./Marquee.css";
+
+import { LanguageDetails } from "./LanguageDetails";
+import { langColors } from "../constants";
+
 
 const translations = {
     0: ["100%", "0%"],
     1: ["-100", "0%"]
 }
-
-const langDetails = {
-
-}
-
-const colors = ["#55ff37", "#ffd43b","#b71111", "#0093ee"]
 
 export const Marquee = (props) => {
     const [width, height] = useWindowSize()
@@ -28,6 +28,9 @@ export const Marquee = (props) => {
 
     const langTextRef = useRef(null)
 
+    const [rectHeight, setRectHeight] = useState(0)
+    const [rectWidth, setRectWidth] = useState(0)
+
     const [containers, setContainers] = useState([])
     const [otherRects, setOtherRects] = useState([])
 
@@ -38,10 +41,11 @@ export const Marquee = (props) => {
     }, [])
 
     useEffect(() => {
+        //Changes rect paths and lang positions on window resize
         let h = window.innerHeight - langRef.current.offsetHeight*2;
         setupPath();
         for (let i = containers.length-1; i >= 0 ; i--) {
-            if (containers[i].className.includes(props.lang.name.toLowerCase())) {
+            if (containers[i].className.includes(props.lang.toLowerCase())) {
                 break;
             };
             if (containers[i].style.transform !== `translateY(0px)` && containers[i].style.transform !== "") {
@@ -50,8 +54,9 @@ export const Marquee = (props) => {
         }
     }, [width, height])
 
-    useEffect(() => {
+    useDidMountEffect(() => {
         if (!props.active[props.langIndex]) {
+            console.log("Yo")
             undoPath(0.5);
             langTextRef.current.style.transition = "all 0s linear"
             langTextRef.current.style.opacity = 0
@@ -67,7 +72,10 @@ export const Marquee = (props) => {
         let x = (langRef.current.offsetLeft + (langRef.current.getBoundingClientRect().width / 2)) - 20;
         
         let h = window.innerHeight - langRef.current.offsetHeight*2;
+        
+        setRectHeight(h)
         let x2 = window.innerWidth - x - 40;
+        setRectWidth(x2)
 
         rectRef.current.style.display = 'initial';
 
@@ -95,8 +103,8 @@ export const Marquee = (props) => {
     }
 
     const doPath = () => {
-        leftRef.current.style.stroke = colors[props.langIndex];
-	    rightRef.current.style.stroke = colors[props.langIndex];
+        leftRef.current.style.stroke = langColors[props.langIndex];
+	    rightRef.current.style.stroke = langColors[props.langIndex];
 
         leftRef.current.style.transition = 'stroke-dashoffset .75s ease-in-out';
         rightRef.current.style.transition = 'stroke-dashoffset .75s ease-in-out';
@@ -115,14 +123,16 @@ export const Marquee = (props) => {
 
     const setupOtherLangs = () => {
         let h = window.innerHeight - langRef.current.offsetHeight*2;
-
+        setRectHeight(h)
+        
+        langTextRef.current.style.display = ""
         langTextRef.current.style.transition = "opacity 0.5s linear"
         langTextRef.current.style.opacity = 1
-        langTextRef.current.style.display = ""
+        
 
         if (containerRef.current.style.transform !== `translateY(${h+40}px)`) {
             for (let i = containers.length-1; i >= 0 ; i--) {
-                if (containers[i].className.includes(props.lang.name.toLowerCase())) {
+                if (containers[i].className.includes(props.lang.toLowerCase())) {
                     break;
                 };
                 containers[i].style.transform = `translateY(${h+40}px)`
@@ -131,42 +141,46 @@ export const Marquee = (props) => {
     }
 
     const clickLang = () => {
+        let h = window.innerHeight - langRef.current.offsetHeight*2;
         if (props.active[props.langIndex]) {
             undoPath(0.5);
             langTextRef.current.style.opacity = 0
             setTimeout(() => {
+                props.setHeight(1000)
                 leftRef.current.style.stroke = "transparent";
                 rightRef.current.style.stroke = "transparent";
-                langTextRef.current.style.display = "none"
+                // langTextRef.current.style.display = "none"
                 for (let i = 0; i < containers.length; i++) {
                     containers[i].style.transform = `translateY(0px)`
                 }
-                
             }, 500)
             props.onClickLang(props.langIndex)
             return;
         }
 
         let containerElStyle = containerRef.current.style
-        
-        if (containerElStyle.transform !== `translateY(0px)` && containerElStyle.transform !== "") {
-            for (let i = 0; i < containers.length; i++) {
-                containers[i].style.transform = `translateY(0px)`
-                if (containers[i].className.includes(props.lang.name.toLowerCase())) {
-                    break;
-                };
-            }
-            setTimeout(putInView, 200, "smooth")
-        } else {
-            putInView("smooth")
-        }
+        props.setHeight(500 + h)
         setTimeout(() => {
-            setupPath();
-            setupOtherLangs();
-            undoPath(0.25);
-            setTimeout(doPath, 250);
-            props.onClickLang(props.langIndex, true)
-        }, 200)
+            if (containerElStyle.transform !== `translateY(0px)` && containerElStyle.transform !== "") {
+                for (let i = 0; i < containers.length; i++) {
+                    containers[i].style.transform = `translateY(0px)`
+                    if (containers[i].className.includes(props.lang.toLowerCase())) {
+                        break;
+                    };
+                }
+                setTimeout(putInView, 200, "smooth")
+            } else {
+                putInView("smooth")
+            }
+            setTimeout(() => {
+                setupPath();
+                setupOtherLangs();
+                undoPath(0.25);
+                setTimeout(doPath, 250);
+                props.onClickLang(props.langIndex, true)
+            }, 200)
+        }, 150)
+
     }
 
     const putInView = (behavior) => {
@@ -174,32 +188,46 @@ export const Marquee = (props) => {
     }
 
     return(
-        <div ref={containerRef} className={`marquee-container ${props.lang.name.toLowerCase()}`}>
+        <div ref={containerRef} className={`marquee-container ${props.lang.toLowerCase()}`}>
             <ScaleText widthOnly={true} maxFontSize={75}>
-                <Parallax
-                    className="marquee-text"
-                    translateX={translations[props.langIndex%2]}
-                    startScroll={200 + (200*props.langIndex)}
-                    endScroll={props.active[props.langIndex] ? 0 : 800 + (200*props.langIndex)}
-                    opacity={[-1,1]}
-                    style={{width:"100%"}}
-                >
-                        <span 
-                            ref={langRef} 
-                            className={`${props.lang.name.replaceAll("/", "-").toLowerCase()} horizontal ${props.active[props.langIndex] ? "active-lang" : ""}`} 
-                            onClick={clickLang}
-                        >
-                            {props.lang.name}
-                            <span className='underline'/>
-                        </span>
-                </Parallax>
+                <>
+                <BrowserView>
+                    <Parallax
+                        className="marquee-text"
+                        translateX={translations[props.langIndex%2]}
+                        startScroll={200 + (200*props.langIndex)}
+                        endScroll={props.active[props.langIndex] ? 0 : 800 + (200*props.langIndex)}
+                        opacity={[-1,1]}
+                        style={{width:"100%"}}
+                    >
+                            <span 
+                                ref={langRef} 
+                                className={`${props.lang.replaceAll("/", "-").toLowerCase()} horizontal ${props.active[props.langIndex] ? "active-lang" : ""}`} 
+                                onClick={clickLang}
+                            >
+                                {props.lang}
+                                <span className='underline'/>
+                            </span>
+                    </Parallax>
+                </BrowserView>
+                <MobileView>
+                    <span 
+                        ref={langRef} 
+                        className={`${props.lang.replaceAll("/", "-").toLowerCase()} horizontal ${props.active[props.langIndex] ? "active-lang" : ""}`} 
+                        onClick={clickLang}
+                    >
+                        {props.lang}
+                        <span className='underline'/>
+                    </span>
+                </MobileView>
+                </>
             </ScaleText>
-            <svg ref={rectRef} className={`rect rect-${props.lang.name.toLowerCase()}`} id="rect">
+            <svg ref={rectRef} className={`rect rect-${props.lang.toLowerCase()}`} id="rect">
                 <path ref={leftRef} id="rectleft"/>
                 <path ref={rightRef} id="rectright"/>
             </svg>
             <div ref={langTextRef} className="lang-text" style={{display: "none"}}>
-                {props.lang.details}
+                {LanguageDetails(rectHeight, rectWidth, props.active[props.langIndex])[props.langIndex]}
             </div>
         </div>
     )

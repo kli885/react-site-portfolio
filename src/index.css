@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.grecaptcha-badge {
+  transition: right 0.3s ease, opacity 1s linear !important;
+  opacity: 0;
+}
