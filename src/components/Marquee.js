@@ -1,6 +1,6 @@
-import React, { forwardRef, useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { BrowserView, MobileView } from "react-device-detect";
-import { Parallax, useParallax } from "react-scroll-parallax";
+import { Parallax } from "react-scroll-parallax";
 import ScaleText from "react-scale-text";
 
 import useWindowSize from "../hooks/useWindowSize"
@@ -32,9 +32,6 @@ export const Marquee = (props) => {
     const [rectWidth, setRectWidth] = useState(0)
 
     const [containers, setContainers] = useState([])
-    const [otherRects, setOtherRects] = useState([])
-
-    const [activeButton, setActiveButton] = useState(false)
 
     useEffect(() => {
         setContainers(Array.from(document.getElementsByClassName("marquee-container")))
@@ -55,8 +52,7 @@ export const Marquee = (props) => {
     }, [width, height])
 
     useDidMountEffect(() => {
-        if (!props.active[props.langIndex]) {
-            console.log("Yo")
+        if (!props.active[props.langIndex]) { 
             undoPath(0.5);
             langTextRef.current.style.transition = "all 0s linear"
             langTextRef.current.style.opacity = 0
@@ -146,10 +142,9 @@ export const Marquee = (props) => {
             undoPath(0.5);
             langTextRef.current.style.opacity = 0
             setTimeout(() => {
-                props.setHeight(1000)
+                props.setHeight(300)
                 leftRef.current.style.stroke = "transparent";
                 rightRef.current.style.stroke = "transparent";
-                // langTextRef.current.style.display = "none"
                 for (let i = 0; i < containers.length; i++) {
                     containers[i].style.transform = `translateY(0px)`
                 }
@@ -159,7 +154,7 @@ export const Marquee = (props) => {
         }
 
         let containerElStyle = containerRef.current.style
-        props.setHeight(500 + h)
+        props.setHeight(400 + h)
         setTimeout(() => {
             if (containerElStyle.transform !== `translateY(0px)` && containerElStyle.transform !== "") {
                 for (let i = 0; i < containers.length; i++) {

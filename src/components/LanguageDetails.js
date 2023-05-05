@@ -1,5 +1,3 @@
-import ScaleText from "react-scale-text";
-import PerfectScrollbar from 'react-perfect-scrollbar'
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import useIsOverflow from "../hooks/useIsOverflow";
@@ -10,18 +8,11 @@ import { useEffect, useLayoutEffect, useState, useRef } from "react";
 
 export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
     const scrollRef = useRef(null)
-    const scrollRef2 = useRef(null)
 
     const [width, height] = useWindowSize()
     const isOverflow = useIsOverflow(scrollRef)
-    const isOverflow2 = useIsOverflow(scrollRef2)
 
-    const [projectHeight, setProjectHeight] = useState()
     const [projectClassName, setProjectClassName] = useState("proj")
-
-    let maxFontSize = 25;
-    let maxProjHeight = `${descriptionHeight/2}px`
-    let maxDescHeight = `${descriptionHeight/4+100}px`
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -34,21 +25,12 @@ export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
 
     }, [isOverflow])
 
-    useEffect(() => {
-        if (scrollRef2.current) {
-            if (isOverflow2.isWidthOverflow) {
-                scrollRef2.current.style.justifyContent = "unset"
-            } else {
-                scrollRef2.current.style.justifyContent = "center"
-            }
-        }
-    }, [isOverflow2])
 
     useLayoutEffect(() => {
-        if (scrollRef2.current) {
-            scrollRef2.current.style.height = descriptionHeight - scrollRef2.current.offsetTop + 30 + "px"
+        if (scrollRef.current) {
+            scrollRef.current.style.height = descriptionHeight - scrollRef.current.offsetTop + 30 + "px"
         }
-    }, [width, height, descriptionHeight, scrollRef2.current?.offsetTop])
+    }, [width, height, descriptionHeight, scrollRef.current?.offsetTop])
 
     useEffect(() => {
         if (active) {
@@ -78,7 +60,7 @@ export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
                         {`web applications`}
                     </span>
                     {`. I am most familiar with `}
-                    <a style={{color: langColors[0]}} href="https://react.dev/" target="_blank">
+                    <a style={{color: langColors[0]}} href="https://react.dev/" target="_blank"  rel="noreferrer">
                         {`ReactJS`}
                     </a>
                     {`, which is the library used for this site! I've been using it since 2019, and I'd call myself an `}
@@ -189,12 +171,17 @@ export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
                     {` with this stack.`}
                 </div>
                 <ScrollContainer innerRef={scrollRef} ignoreElements="h3" className="projects htmlcssjs-projects">
-                    <div className={projectClassName} style={{backgroundImage: "url(img/social-distribution.gif)"}}>
+                    <div className={projectClassName} style={{backgroundImage: "url(img/CustomDiscord.png)"}}>
                         {isOverflow.isHeightOverflow || isOverflow.isWidthOverflow ? (<div id="scroll-tip">
                             {`Drag to scroll -->`}
                         </div>) : (<></>)}
-                        <a href="https://github.com/CMPUT404Project/social-distribution" target="_blank" rel="noreferrer">
-                            <h2>Social Distribution <br/>(Frontend)</h2>
+                        <a href="https://github.com/kli885/CustomDiscordTheme" target="_blank" rel="noreferrer">
+                            <h2>Custom Discord CSS</h2>
+                        </a>
+                    </div>
+                    <div className={projectClassName} style={{backgroundImage: "url(img/FunPages.png)"}}>
+                        <a href="https://github.com/kli885/CMPUT404-assignment-css-hell/tree/master/homepage" target="_blank" rel="noreferrer">
+                            <h2>Fun HTML/CSS Pages</h2>
                         </a>
                     </div>
                     <div className={projectClassName} style={{backgroundImage: "url(img/portfolio.gif)"}}>
@@ -202,22 +189,14 @@ export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
                             <h2>Portfolio</h2>
                         </a>
                     </div>
+                    <div className={projectClassName} style={{backgroundImage: "url(img/social-distribution.gif)"}}>
+                        <a href="https://github.com/CMPUT404Project/social-distribution" target="_blank" rel="noreferrer">
+                            <h2>Social Distribution <br/>(Frontend)</h2>
+                        </a>
+                    </div>
                     <div className={projectClassName} style={{backgroundImage: "url(img/CalendarMed.png)"}}>
                         <a href="https://github.com/UAlberta-CMPUT401/learning-sciences" target="_blank" rel="noreferrer">
                             <h2>Calendar Med <br/>(Frontend)</h2>
-                        </a>
-                    </div>
-
-                </ScrollContainer>
-                <ScrollContainer innerRef={scrollRef2} ignoreElements="h3" className="projects htmlcssjs-projects">
-                    <div className={projectClassName} style={{backgroundImage: "url(img/FunPages.png)"}}>
-                        <a href="https://github.com/kli885/CMPUT404-assignment-css-hell/tree/master/homepage" target="_blank" rel="noreferrer">
-                            <h2>Fun HTML/CSS Pages</h2>
-                        </a>
-                    </div>
-                    <div className={projectClassName} style={{backgroundImage: "url(img/CustomDiscord.png)"}}>
-                        <a href="https://github.com/kli885/CustomDiscordTheme" target="_blank" rel="noreferrer">
-                            <h2>Custom Discord CSS</h2>
                         </a>
                     </div>
                 </ScrollContainer>
@@ -225,10 +204,8 @@ export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
         ),
         (
             <>
-                <div className="lang-title">
-                    <a style={{color:"#fff"}} href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noreferrer">
+                <div className="lang-title" style={{textDecoration: "underline"}}>
                     Others
-                    </a>
                 </div>
                 <div className="lang-description" id="python-description">
                     {`Some other languages I've worked in are `}
@@ -253,7 +230,7 @@ export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
                         {isOverflow.isHeightOverflow || isOverflow.isWidthOverflow ? (<div id="scroll-tip">
                             {`Drag to scroll -->`}
                         </div>) : (<></>)}
-                        <a target="_blank" rel="noreferrer">
+                        <a href="https://mppsoftware.com/" target="_blank" rel="noreferrer">
                             <h2>Eligere - Flutter<br/>(Source Unavailable)</h2>
                         </a>
                     </div>

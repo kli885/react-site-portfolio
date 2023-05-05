@@ -119,6 +119,14 @@ canvas {
 	transform: translateX(-50%);
 }
 
+.click-me {
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 1s linear;
+    pointer-events: none;
+    color: #646464;
+}
+
 .gradient-layer {
     height: 150px;
     background: linear-gradient(0deg, rgba(18,22,51,1) 0%, rgba(0,0,0,1) 100%);
@@ -136,139 +144,7 @@ canvas {
 }
 
 .filler-background {
-    height: 1000px;
     transition: all 0.2s linear;
     background-color: rgba(18,22,51,1);
     z-index: -1;
-}
-
-.filler-background2 {
-    height: 1000px;
-    transition: all 0.2s linear;
-    background-color: #252934;
-    z-index: -1;
-}
-
-#contact {
-    position: relative;
-    background: #252934;
-    color: #fff;
-    text-align: center;
-    line-height: 18pt;
-    padding: 175px 0 130px 0;
-}
-
-#contact svg {
-    left: 0;
-    position: absolute;
-    top: 0;
-}
-
-.contact-container {
-    padding: 0 10px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    max-width: 1200px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.contact-header {
-    font-size: 40px;
-    position: relative;
-    font-family: 'Raleway';
-}
-
-.contact-header-bar {
-    background: #fff;
-    margin: 25px 0 40px 0;
-    width: 110px;
-    height: 4px;
-}
-
-.contact-question {
-    color: #04c2c9;
-    font-weight: 600;
-    font-family: 'Raleway';
-}
-
-.contact-form {
-    margin: 40px auto 0 auto;
-}
-
-#contact input[type='text'],
-#contact input[type='email'],
-#contact textarea {
-    background: #1e242c;
-    border: 0;
-    box-sizing: border-box;
-    color: #fff;
-    display: block;
-    font-size: 12pt;
-    margin-bottom: 3px;
-    outline: none;
-    padding: 10px 15px;
-    width: 100%;
-}
-
-#contact textarea {
-    margin-bottom: 5px;
-    min-height: 150px;
-    min-width: 538px;
-    max-width: 1000px;
-}
-
-.contact-button {
-    background: transparent;
-    color: #fff;
-    float: right;
-    font-size: 12pt;
-    margin: 5px 0 0 0;
-    outline: 0;
-    padding: 10px 30px;
-    border: 2px solid #fff;
-    box-sizing: inherit;
-    cursor: pointer;
-    transition: all 0.5s;
-}
-
-.contact-button:hover {
-    background: #039196;
-    border-color: #04c2c9;
-}
-
-div.expand {
-    height: 36px;
-    font-size: 12pt;
-    font-weight: 600;
-    margin-top: 5px
-}
-
-.success {
-    height: 0;
-    overflow: hidden;
-    position: relative;
-    transition: height 0.25s;
-    width: 100%;
-}
-.success div {
-    background: #04c986;
-    border: 1px solid #157c59;
-    color: #0a3a2a;
-    padding: 5px 0;
-}
-
-.error {
-    height: 0;
-    overflow: hidden;
-    position: relative;
-    transition: height 0.25s;
-    width: 100%;
-}
-.error div {
-    color: #c93232;
-    padding: 5px 0;
 }
