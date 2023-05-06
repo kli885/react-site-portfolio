@@ -32,9 +32,11 @@ export const Marquee = (props) => {
     const [rectWidth, setRectWidth] = useState(0)
 
     const [containers, setContainers] = useState([])
+    const [rects, setRects] = useState([])
 
     useEffect(() => {
         setContainers(Array.from(document.getElementsByClassName("marquee-container")))
+        setRects(Array.from(document.getElementsByClassName("rect")))
     }, [])
 
     useEffect(() => {
@@ -59,7 +61,7 @@ export const Marquee = (props) => {
             setTimeout(() => {
                 leftRef.current.style.stroke = "transparent";
                 rightRef.current.style.stroke = "transparent";
-                
+                langTextRef.current.style.display = "none"
             }, 500)
         }
     }, [props.active[props.langIndex]])
@@ -68,11 +70,12 @@ export const Marquee = (props) => {
         let x = (langRef.current.offsetLeft + (langRef.current.getBoundingClientRect().width / 2)) - 20;
         
         let h = window.innerHeight - langRef.current.offsetHeight*2;
+        console.log(`window.innerHeight: ${window.innerHeight}`)
+        console.log(`langRef.current.offsetHeight*2: ${langRef.current.offsetHeight*2}`)
         
         setRectHeight(h)
         let x2 = window.innerWidth - x - 40;
         setRectWidth(x2)
-
         rectRef.current.style.display = 'initial';
 
         leftRef.current.setAttribute('d', `M ${x + 2},0
@@ -148,6 +151,7 @@ export const Marquee = (props) => {
                 for (let i = 0; i < containers.length; i++) {
                     containers[i].style.transform = `translateY(0px)`
                 }
+                langTextRef.current.style.display = "none"
             }, 500)
             props.onClickLang(props.langIndex)
             return;
@@ -217,9 +221,9 @@ export const Marquee = (props) => {
                 </MobileView>
                 </>
             </ScaleText>
-            <svg ref={rectRef} className={`rect rect-${props.lang.toLowerCase()}`} id="rect">
-                <path ref={leftRef} id="rectleft"/>
-                <path ref={rightRef} id="rectright"/>
+            <svg ref={rectRef} className={`rect rect-${props.lang.toLowerCase()}`}>
+                <path ref={leftRef} className="rectleft"/>
+                <path ref={rightRef} className="rectright"/>
             </svg>
             <div ref={langTextRef} className="lang-text" style={{display: "none"}}>
                 {LanguageDetails(rectHeight, rectWidth, props.active[props.langIndex])[props.langIndex]}

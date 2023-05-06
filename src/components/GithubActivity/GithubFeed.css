@@ -11,9 +11,7 @@
     background-color: rgba(27, 27, 27, 0.402);
     color: #373a3c;
     border-radius: 5px;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 20px;
+    margin: 20px auto;
 }
 .github-header-outer {
     display: table-row;

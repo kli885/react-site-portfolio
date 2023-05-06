@@ -3,6 +3,7 @@
 
 .marquee-container {
     transition: transform 0.15s linear;
+	margin-bottom: -150px;
 }
 
 .marquee-text {
@@ -35,17 +36,16 @@
     background-color: #58bfff;
 }
 
-#rect {
+.rect {
 	transform: translateY(50px);
-    height: 0;
+    /* height: 0px; */
     padding-left: 20px;
 	overflow: visible;
 	transition: all 0.2s linear;
-    /* display: none; */
     float: left;
 }
 
-#rectleft, #rectright {
+.rectleft, .rectright {
 	transform: translateX(1px) translateY(1px);
 	stroke-width: 2px;
 	stroke: transparent;
@@ -108,7 +108,6 @@
 	box-shadow: 0 0 0 1000px inset #0000008f, 0 0 45px 0 inset black;
 	border-radius: 20px;
 	background-position: center;
-	/* cursor: pointer; */
 	transition: background-size 0.2s ease-in;
 }
 
