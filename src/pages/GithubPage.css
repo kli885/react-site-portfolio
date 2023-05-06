@@ -1,3 +1,8 @@
+.github-page {
+    display: flex;
+    flex-direction: column;
+}
+
 .loading-container {
     position: absolute;
     top: calc(50% - 75px);
@@ -6,5 +11,7 @@
 }
 
 .github-container {
+    margin-top: 65px;
     min-height: 100%;
+    overflow: auto;
 }

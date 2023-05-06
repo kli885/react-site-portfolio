@@ -32,11 +32,9 @@ export const Marquee = (props) => {
     const [rectWidth, setRectWidth] = useState(0)
 
     const [containers, setContainers] = useState([])
-    const [rects, setRects] = useState([])
 
     useEffect(() => {
         setContainers(Array.from(document.getElementsByClassName("marquee-container")))
-        setRects(Array.from(document.getElementsByClassName("rect")))
     }, [])
 
     useEffect(() => {
@@ -70,8 +68,6 @@ export const Marquee = (props) => {
         let x = (langRef.current.offsetLeft + (langRef.current.getBoundingClientRect().width / 2)) - 20;
         
         let h = window.innerHeight - langRef.current.offsetHeight*2;
-        console.log(`window.innerHeight: ${window.innerHeight}`)
-        console.log(`langRef.current.offsetHeight*2: ${langRef.current.offsetHeight*2}`)
         
         setRectHeight(h)
         let x2 = window.innerWidth - x - 40;

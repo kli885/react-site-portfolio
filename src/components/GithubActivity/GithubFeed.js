@@ -25,29 +25,27 @@ export default class GithubFeed extends Component {
                         <div className="github-icon">
                             <span className="github-icon-octicon octicon octicon-mark-github"></span>
                         </div>
-                        {!this.props.avatarUrl ? (
-                        <div className="github-profile">
-                            <a className="github-fullname" href={"https://github.com/"+ this.props.userName} target="_blank" rel="noreferrer">
-                                { this.props.fullName ? this.props.fullName : this.props.userName }
-                            </a>
-                            <div className="github-username" style={{color: "red"}}>
-                                {this.props.userName ? 
-                                    "Github acitivity could not be loaded for " + this.props.userName :
-                                    "Please add your github to your profile and try again"}
+                        {(!this.props.avatarUrl && this.props.isEmpty) ? (
+                            <div className="github-profile">
+                                <a className="github-fullname" href={"https://github.com/"+ this.props.userName} target="_blank" rel="noreferrer">
+                                    { this.props.fullName ? this.props.fullName : this.props.userName }
+                                </a>
+                                <div className="github-username" style={{color: "red"}}>
+                                    Github activity could not be loaded for {this.props.userName}
+                                </div>
                             </div>
-                        </div>
                         ) : (
-                        <a className="github-profile" href={"https://github.com/"+ this.props.userName} target="_blank" rel="noreferrer">
-                            <div className="github-fullname">
-                                {this.props.fullName ? this.props.fullName : this.props.userName}
-                            </div>
-                            <div className="github-username">
-                                {this.props.fullName ? this.props.userName : ""}
-                            </div>
-                        </a>
+                            <a className="github-profile" href={"https://github.com/"+ this.props.userName} target="_blank" rel="noreferrer">
+                                <div className="github-fullname">
+                                    {this.props.fullName ? this.props.fullName : this.props.userName}
+                                </div>
+                                <div className="github-username">
+                                    {this.props.fullName ? this.props.userName : ""}
+                                </div>
+                            </a>
                         )}
                         <div className="github-avatar">
-                            <img className="github-avatar-img" alt="" src={ this.props.avatarUrl } />
+                            <img className="github-avatar-img" alt="" src={ this.props.avatarUrl ? this.props.avatarUrl : "https://github.com/identicons/kli885.png" } />
                         </div>
                     </div>
                 </div>

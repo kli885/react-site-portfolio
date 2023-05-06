@@ -226,7 +226,7 @@ export const LanguageDetails = (descriptionHeight, projectWidth, active) => {
                     </span>
                 </div>
                 <ScrollContainer innerRef={scrollRef} ignoreElements="h3" className="projects other-projects">
-                    <div className={projectClassName} style={{backgroundImage: "url(img/Eligere2.png)"}}>
+                    <div className={projectClassName} style={{backgroundImage: "url(img/Eligere.png)"}}>
                         {isOverflow.isHeightOverflow || isOverflow.isWidthOverflow ? (<div id="scroll-tip">
                             {`Drag to scroll -->`}
                         </div>) : (<></>)}

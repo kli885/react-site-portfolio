@@ -1,11 +1,4 @@
-/**
- * Took inspiration from here https://github.com/caseyscarborough/github-activity
- * Some of the logic and templates were used
- * The above repo did not work for React so 
- * I made my own basing it off of this
- */
-
- import React, { Component } from 'react'
+import React, { Component } from 'react'
  
  export default class GithubEvent extends Component {
     renderTypes(data) {

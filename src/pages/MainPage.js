@@ -73,10 +73,10 @@ function MainPage() {
 
     return (
         <div className="site-container">
-            <h1 className={doneNameAnimation ? "name-intro top" : "name-intro"}>
-                <span style={{ color: "white", fontSize: "40px", fontWeight: "bold" }}>{"{"}</span>
+            <h1 className={doneNameAnimation ? "name-intro top" : "name-intro"} style={{color: "white"}}>
+                <span style={{ fontSize: "40px", fontWeight: "bold" }}>{"{"}</span>
                 <span style={{ borderBottom: "2px solid white" }}>{nameAnimationStep}</span>
-                <span style={{ color: "white", fontSize: "40px", fontWeight: "bold" }}>{"}"}</span>
+                <span style={{ fontSize: "40px", fontWeight: "bold" }}>{"}"}</span>
             </h1>
             <div className="main-container" id="main" style={{ opacity: doneNameAnimation ? 1 : 0 }}>
                 <h2 className="age">
